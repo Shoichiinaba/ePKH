@@ -75,7 +75,7 @@
                                     <td><?php echo $g->tahun; ?></td>
                                     <td>
 
-                                      <a type="button" href="<?php echo base_url('/laporan/laprec/'.$g->no_kk); ?>" target="_blank" class="btn bg-maroon margin btn-xs"  data-placement="top"  title="Cetak"><i class="fa fa-print"></i></a>
+                                     <a type="button" href="<?php echo base_url('/laporan/laprec/'.$g->no_kk); ?>" target="_blank" class="btn bg-maroon margin btn-xs"  data-placement="top"  title="Cetak"><i class="fa fa-print"></i></a>
 
                                      <a type="button" data-toggle="modal" data-target="#modal-edit<?=$g->no_kk;?>" class="btn bg-purple btn-xs"  data-placement="top"  title="Edit"><i class="fa fa-spinner"></i></a>
 

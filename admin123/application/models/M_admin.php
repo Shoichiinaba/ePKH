@@ -44,6 +44,16 @@ class M_admin extends CI_Model {
 			$data = $this->db->query("SELECT * FROM hasil_prediksi WHERE keputusan = '$keputusan'");
 			return $data->num_rows();
 		}
+	function get_dapat($keputusan = 'DAPAT')
+		{
+			$data = $this->db->query("SELECT * FROM hasil_prediksi WHERE keputusan = '$keputusan'");
+			return $data->result();
+		}
+	function get_tdapat($keputusan = 'TIDAK DAPAT')
+		{
+			$data = $this->db->query("SELECT * FROM hasil_prediksi WHERE keputusan = '$keputusan'");
+			return $data->result();
+		}
 
 }
 
