@@ -57,7 +57,7 @@
                                     <tbody>
                                      <?php $no= 0; foreach ($list as $g ): $no++;?>
                                   <tr>
-                                    <td><?php echo $g->id; ?></td>
+                                    <td><?php echo $no; ?></td>
                                     <td><?php echo $g->nama; ?></td>
                                     <td><?php echo $g->alamat; ?></td>
                                     <td><?php echo $g->status_rumah; ?></td>
