@@ -51,6 +51,18 @@ class M_bantuan extends CI_Model {
         return $query->result();
 	}
 
+	function cetak_dapat($keputusan = 'DAPAT')
+		{
+			$data = $this->db->query("SELECT * FROM hasil_prediksi WHERE keputusan = '$keputusan'");
+			return $data->result();
+		}
+
+	function cetak_tdapat($keputusan = 'TIDAK DAPAT')
+		{
+			$data = $this->db->query("SELECT * FROM hasil_prediksi WHERE keputusan = '$keputusan'");
+			return $data->result();
+		}
+
 	function delete($params ='')
 	{
         $sql = "DELETE  FROM hasil_prediksi WHERE no_kk = ? ";
@@ -69,6 +81,12 @@ class M_bantuan extends CI_Model {
 		$this->db->where('no_kk',$no_kk);
 		$sql = $this->db->get('hasil_prediksi');
 			return ($sql->num_rows() < 1)?'NO_DATA_QUERY':$sql->result_array();
+	}
+	
+		public function simpan_pred($no_kk,$nama,$alamat,$status_rumah,$pekerjaan,$jml_tanggungan,$bahan_bakar_m,$sumber_air,$daya_listrik,$prediksi_dapat,$prediksi_tdapat,$keputusan,$tgl_pengajuan)
+	{
+        $hasil=$this->db->query("INSERT INTO hasil_prediksi(no_kk,nama,alamat,status_rumah,pekerjaan,jml_tanggungan,bahan_bakar_m,sumber_air,daya_listrik,prediksi_dapat,prediksi_tdapat,keputusan,tgl_pengajuan) VALUES ('$no_kk','$nama','$alamat','$status_rumah','$pekerjaan','$jml_tanggungan','$bahan_bakar_m','$sumber_air','$daya_listrik','$prediksi_dapat','$prediksi_tdapat','$keputusan','$tgl_pengajuan')");
+        return $hasil;
     }
 
 }

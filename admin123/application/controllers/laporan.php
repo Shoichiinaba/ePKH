@@ -58,9 +58,9 @@ class laporan extends CI_Controller {
         $pdf->Image(base_url(). "assets/img/epkh1.png",85,90,'L');
         $pdf->SetTextColor(255);
         $pdf->SetDrawColor(8,8,8);
-        $header = array('No KK','Nama','Alamat','Status Rumah','Pekerjaan','Jml. Tanggungan','Bagan Bakar','Sumber Air','Daya Listrik','Pred .Dapat','Pred. T.Dapat','Keputusan','Tahun');
+        $header = array('No KK','Nama','Alamat','Status Rumah','Pekerjaan','Jml. Tanggungan','Bagan Bakar','Sumber Air','Daya Listrik','Pred .Dapat','Pred. T.Dapat','Keputusan','Pengajuan');
         // Lebar Header Sesuaikan Jumlahnya dengan Jumlah Field Tabel Database
-       $w = array(28,33,40,27,30,26,22,30,20,20,22,23,20,20);
+       $w = array(28,33,40,27,30,26,22,30,20,20,22,23,20);
         for($i=0;$i<count($header);$i++)
         $pdf->Cell($w[$i],7,$header[$i],1,0,'C',true);
         $pdf->Ln();
@@ -80,10 +80,10 @@ class laporan extends CI_Controller {
             $pdf->Cell($w[6],6,$row->bahan_bakar_m,'LR',0,'C',$fill);
             $pdf->Cell($w[4],6,$row->sumber_air,'LR',0,'C',$fill);
             $pdf->Cell($w[9],6,$row->daya_listrik,'LR',0,'C',$fill);
-            $pdf->Cell($w[13],6,$row->prediksi_dapat,'LR',0,'C',$fill);
+            $pdf->Cell($w[9],6,$row->prediksi_dapat,'LR',0,'C',$fill);
             $pdf->Cell($w[10],6,$row->prediksi_tdapat,'LR',0,'C',$fill);
             $pdf->Cell($w[11],6,$row->keputusan,'LR',0,'C',$fill);
-            $pdf->Cell($w[8],6,$row->tahun,'LR',0,'C',$fill);
+            $pdf->Cell($w[8],6,$row->tgl_pengajuan,'LR',0,'C',$fill);
         
 
             $pdf->Ln();
@@ -114,7 +114,8 @@ class laporan extends CI_Controller {
             $prediksi_dapat = $data[0]['prediksi_dapat'];
             $prediksi_tdapat = $data[0]['prediksi_tdapat'];
             $keputusan = $data[0]['keputusan'];
-            $tahun = $data[0]['tahun'];
+            $tgl_pengajuan = $data[0]['tgl_pengajuan'];
+            $tgl_approve = $data[0]['tgl_approve'];
             $this->load->library('pdf');
         $pdf = new FPDF('P','mm','A4');
         $pdf->AddPage();
@@ -173,9 +174,9 @@ class laporan extends CI_Controller {
         $pdf->SetFillColor(54,137,239);
         $pdf->SetTextColor(255);
         $pdf->SetDrawColor(8,8,8);
-        $header = array('Status Rumah','Pekerjaan','Jml. Tanggungan','Bahan Bakar.','Sumber Air','Daya Listrik','Tahun');
+        $header = array('Status Rumah','Pekerjaan','Jml. Tanggungan','Bahan Bakar M.','Sumber Air','Daya Listrik');
         // Lebar Header Sesuaikan Jumlahnya dengan Jumlah Field Tabel Database
-       $w = array(32,36,28,28,28,20,20);
+       $w = array(32,36,30,30,36,30);
         for($i=0;$i<count($header);$i++)
         $pdf->Cell($w[$i],7,$header[$i],1,0,'C',true);
         $pdf->Ln();
@@ -185,14 +186,12 @@ class laporan extends CI_Controller {
         $pdf->SetTextColor(0);
         $pdf->SetFont('');
         
-            $pdf->Cell($w[0],6,$status_rumah,'LR',0,'L',$fill);
-            $pdf->Cell($w[1],6,$pekerjaan,'LR',0,'L',$fill);
-            $pdf->Cell($w[3],6,$jml_tanggungan,'LR',0,'C',$fill);
+            $pdf->Cell($w[0],6,$status_rumah,'LR',0,'C',$fill);
+            $pdf->Cell($w[1],6,$pekerjaan,'LR',0,'C',$fill);
+            $pdf->Cell($w[2],6,$jml_tanggungan,'LR',0,'C',$fill);
             $pdf->Cell($w[2],6,$bahan_bakar_m,'LR',0,'C',$fill);
-            $pdf->Cell($w[3],6,$sumber_air,'LR',0,'C',$fill);
+            $pdf->Cell($w[1],6,$sumber_air,'LR',0,'C',$fill);
             $pdf->Cell($w[5],6,$daya_listrik,'LR',0,'C',$fill);
-            $pdf->Cell($w[5],6,$tahun,'LR',0,'C',$fill);
-        
 
         $pdf->Ln();
         $fill = !$fill;
@@ -204,7 +203,7 @@ class laporan extends CI_Controller {
         // Data
         $pdf->SetFont('Arial','',10);
         $pdf->SetFillColor(195,214,70);
-        $pdf->SetTextColor(255);
+        $pdf->SetTextColor(0);
         $pdf->SetDrawColor(8,8,8);
         $header = array('Penilaian Dapat','Penilaian Tidak Dapat','Hasil Penentuan');
         // Lebar Header Sesuaikan Jumlahnya dengan Jumlah Field Tabel Database
@@ -226,6 +225,34 @@ class laporan extends CI_Controller {
         $fill = !$fill;
         $pdf->Cell(array_sum($w),0,'','T'); 
 
+        // Tabel Pengajuan PKH
+        $pdf->Ln(8);
+        $pdf->Cell(35, 4, 'Pengajuan Dan ACC :', 0, 0, 'L');
+        $pdf->Ln(10);
+        // Data
+        $pdf->SetFont('Arial','',10);
+        $pdf->SetFillColor(44,243,24);
+        $pdf->SetTextColor(0);
+        $pdf->SetDrawColor(8,8,8);
+        $header = array('Tanggal Pengajuan','Tanggal ACC.');
+        // Lebar Header Sesuaikan Jumlahnya dengan Jumlah Field Tabel Database
+       $w = array(40,40);
+        for($i=0;$i<count($header);$i++)
+        $pdf->Cell($w[$i],7,$header[$i],1,0,'C',true);
+        $pdf->Ln();
+        // Data
+        $fill = true;
+        $pdf->SetFillColor(224,235,255);
+        $pdf->SetTextColor(0);
+        $pdf->SetFont('');
+        
+            $pdf->Cell($w[0],6,$tgl_pengajuan,'LR',0,'C',$fill);
+            $pdf->Cell($w[1],6,$tgl_approve,'LR',0,'C',$fill);
+        
+        $pdf->Ln();
+        $fill = !$fill;
+        $pdf->Cell(array_sum($w),0,'','T');
+
         // Pengesahan
         $pdf->Ln(35);
         $pdf->Ln(10);
@@ -239,7 +266,7 @@ class laporan extends CI_Controller {
         $pdf->Cell(183, 4,'PETRUS SETYO W.,S.AP', 0, 0, 'R');
         $pdf->setlinewidth(0.3);
        
-        $pdf->Line(199,213,150,213);
+        $pdf->Line(197,244,149,244);
         $pdf->Ln(5);
     
         $pdf->Cell(146, 4, 'NIP', 0, 0, 'R');
@@ -247,6 +274,180 @@ class laporan extends CI_Controller {
 
         $pdf->Ln(25);
         $pdf->Output();
+        
+        }
+    }
+
+    function lapdapat()
+    {
+     if ($this->session->userdata('Auth') == false){
+
+
+        
+        
+        $this->load->library('pdf');
+        $pdf = new FPDF('L','mm','legal');
+        $pdf->AddPage();
+        $pdf->SetFont('Arial','B',12);
+
+        //Kop Surat
+        $pdf->Cell(25);
+        $pdf->Image(base_url(). "assets/img/semarang_log1.jpg",18,2,'C');
+        $pdf->Ln(0);
+        $pdf->Cell(0,0,'PEMERINTAH KOTA SEMARANG ',0,0,'C');
+        $pdf->Ln(5);
+        $pdf->Cell(0,0,'KECAMATAN CANDI SARI ',0,0,'C');
+        $pdf->Ln(5);
+        $pdf->Cell(0,0,'KELURAHAN KARANGANYAR GUNUNG ',0,0,'C');
+        $pdf->Ln();
+        $pdf->SetFont('Arial','i',9);
+        $pdf->Cell(106,12,'Alamat: Jl. Candi Golf Boulevard No 18',0,0,'C');
+        $pdf->Cell(90,12,'Tlp: (024) 8504588',0,0,'R');
+        $pdf->Cell(100,12,'Code Pos: 50255',0,0,'R');
+        $pdf->Ln(0);
+        $pdf->setlinewidth(0.6);
+        $pdf->Cell(0, 9, " ", "B");
+        $pdf->setlinewidth(0.3);
+        $pdf->Ln(0.7);
+        $pdf->Cell(0, 9, " ", "B");
+        $pdf->Ln(6);
+
+        // konten lampiran
+        $pdf->SetFont('Arial','B',12);
+        $pdf->Ln();
+        $pdf->Ln(5);
+        $pdf->Cell(0, 0, 'Laporan Data Pengajuan Bantuan PKH ', 0, 0, 'C'); 
+        $pdf->Cell(85, 4,'', 0, 0, 'C');
+        $pdf->Ln(4);
+        // Tabel Konten
+        $pdf->Ln(6);
+        $pdf->SetFont('Arial','',9);
+        $pdf->SetFillColor(38,174,67);
+        $pdf->Image(base_url(). "assets/img/epkh1.png",85,90,'L');
+        $pdf->SetTextColor(255);
+        $pdf->SetDrawColor(8,8,8);
+        $header = array('No KK','Nama','Alamat','Status Rumah','Pekerjaan','Jml. Tanggungan','Bagan Bakar','Sumber Air','Daya Listrik','Pred .Dapat','Pred. T.Dapat','Keputusan','Pengajuan');
+        // Lebar Header Sesuaikan Jumlahnya dengan Jumlah Field Tabel Database
+       $w = array(28,33,40,27,30,26,22,30,20,20,22,23,20);
+        for($i=0;$i<count($header);$i++)
+        $pdf->Cell($w[$i],7,$header[$i],1,0,'C',true);
+        $pdf->Ln();
+        // Data
+        $fill = true;
+        $pdf->SetFont('Arial','',8);
+        $pdf->SetFillColor(224,235,255);
+        $pdf->SetTextColor(0);
+        $pdf->SetFont('');
+        foreach ($this->M_bantuan->cetak_dapat() as $row):
+            $pdf->Cell($w[0],6,$row->no_kk,'LR',0,'C',$fill);
+            $pdf->Cell($w[1],6,$row->nama,'LR',0,'L',$fill);
+            $pdf->Cell($w[2],6,$row->alamat,'LR',0,'L',$fill);
+            $pdf->Cell($w[3],6,$row->status_rumah,'LR',0,'L',$fill);
+            $pdf->Cell($w[4],6,$row->pekerjaan,'LR',0,'C',$fill); 
+            $pdf->Cell($w[5],6,$row->jml_tanggungan,'LR',0,'C',$fill);
+            $pdf->Cell($w[6],6,$row->bahan_bakar_m,'LR',0,'C',$fill);
+            $pdf->Cell($w[4],6,$row->sumber_air,'LR',0,'C',$fill);
+            $pdf->Cell($w[9],6,$row->daya_listrik,'LR',0,'C',$fill);
+            $pdf->Cell($w[9],6,$row->prediksi_dapat,'LR',0,'C',$fill);
+            $pdf->Cell($w[10],6,$row->prediksi_tdapat,'LR',0,'C',$fill);
+            $pdf->Cell($w[11],6,$row->keputusan,'LR',0,'C',$fill);
+            $pdf->Cell($w[8],6,$row->tgl_pengajuan,'LR',0,'C',$fill);
+        
+
+            $pdf->Ln();
+            $fill = !$fill;
+            endforeach;
+            $pdf->Cell(array_sum($w),0,'','T');
+
+            $pdf->Output();
+        
+        
+        }
+    }
+
+    function laptdapat()
+    {
+     if ($this->session->userdata('Auth') == false){
+
+
+        
+        
+        $this->load->library('pdf');
+        $pdf = new FPDF('L','mm','legal');
+        $pdf->AddPage();
+        $pdf->SetFont('Arial','B',12);
+
+        //Kop Surat
+        $pdf->Cell(25);
+        $pdf->Image(base_url(). "assets/img/semarang_log1.jpg",18,2,'C');
+        $pdf->Ln(0);
+        $pdf->Cell(0,0,'PEMERINTAH KOTA SEMARANG ',0,0,'C');
+        $pdf->Ln(5);
+        $pdf->Cell(0,0,'KECAMATAN CANDI SARI ',0,0,'C');
+        $pdf->Ln(5);
+        $pdf->Cell(0,0,'KELURAHAN KARANGANYAR GUNUNG ',0,0,'C');
+        $pdf->Ln();
+        $pdf->SetFont('Arial','i',9);
+        $pdf->Cell(106,12,'Alamat: Jl. Candi Golf Boulevard No 18',0,0,'C');
+        $pdf->Cell(90,12,'Tlp: (024) 8504588',0,0,'R');
+        $pdf->Cell(100,12,'Code Pos: 50255',0,0,'R');
+        $pdf->Ln(0);
+        $pdf->setlinewidth(0.6);
+        $pdf->Cell(0, 9, " ", "B");
+        $pdf->setlinewidth(0.3);
+        $pdf->Ln(0.7);
+        $pdf->Cell(0, 9, " ", "B");
+        $pdf->Ln(6);
+
+        // konten lampiran
+        $pdf->SetFont('Arial','B',12);
+        $pdf->Ln();
+        $pdf->Ln(5);
+        $pdf->Cell(0, 0, 'Laporan Data Pengajuan Bantuan PKH ', 0, 0, 'C'); 
+        $pdf->Cell(85, 4,'', 0, 0, 'C');
+        $pdf->Ln(4);
+        // Tabel Konten
+        $pdf->Ln(6);
+        $pdf->SetFont('Arial','',9);
+        $pdf->SetFillColor(243,148,24);
+        $pdf->Image(base_url(). "assets/img/epkh1.png",85,90,'L');
+        $pdf->SetTextColor(255);
+        $pdf->SetDrawColor(8,8,8);
+        $header = array('No KK','Nama','Alamat','Status Rumah','Pekerjaan','Jml. Tanggungan','Bagan Bakar','Sumber Air','Daya Listrik','Pred .Dapat','Pred. T.Dapat','Keputusan','Pengajuan');
+        // Lebar Header Sesuaikan Jumlahnya dengan Jumlah Field Tabel Database
+       $w = array(28,33,40,27,30,26,22,30,20,20,22,23,20);
+        for($i=0;$i<count($header);$i++)
+        $pdf->Cell($w[$i],7,$header[$i],1,0,'C',true);
+        $pdf->Ln();
+        // Data
+        $fill = true;
+        $pdf->SetFont('Arial','',8);
+        $pdf->SetFillColor(224,260,260);
+        $pdf->SetTextColor(0);
+        $pdf->SetFont('');
+        foreach ($this->M_bantuan->cetak_tdapat() as $row):
+            $pdf->Cell($w[0],6,$row->no_kk,'LR',0,'C',$fill);
+            $pdf->Cell($w[1],6,$row->nama,'LR',0,'L',$fill);
+            $pdf->Cell($w[2],6,$row->alamat,'LR',0,'L',$fill);
+            $pdf->Cell($w[3],6,$row->status_rumah,'LR',0,'C',$fill);
+            $pdf->Cell($w[4],6,$row->pekerjaan,'LR',0,'C',$fill); 
+            $pdf->Cell($w[5],6,$row->jml_tanggungan,'LR',0,'C',$fill);
+            $pdf->Cell($w[6],6,$row->bahan_bakar_m,'LR',0,'C',$fill);
+            $pdf->Cell($w[4],6,$row->sumber_air,'LR',0,'C',$fill);
+            $pdf->Cell($w[9],6,$row->daya_listrik,'LR',0,'C',$fill);
+            $pdf->Cell($w[9],6,$row->prediksi_dapat,'LR',0,'C',$fill);
+            $pdf->Cell($w[10],6,$row->prediksi_tdapat,'LR',0,'C',$fill);
+            $pdf->Cell($w[11],6,$row->keputusan,'LR',0,'C',$fill);
+            $pdf->Cell($w[8],6,$row->tgl_pengajuan,'LR',0,'C',$fill);
+        
+
+            $pdf->Ln();
+            $fill = !$fill;
+            endforeach;
+            $pdf->Cell(array_sum($w),0,'','T');
+
+            $pdf->Output();
+        
         
         }
     }

@@ -11,9 +11,10 @@ class List_prediksi extends AUTH_Controller {
 
 	public function index()
 	{
-		$data['content'] 	= 'admin/list_data_prediksi';
-		$data['data']		=$this->M_latih->get_data_prediksi();
-		$data['userdata'] 	= $this->userdata;
+		$data['content'] 		= 'admin/list_data_prediksi';
+		$data['blm_approve'] 	= $this->M_admin->blm_approve();
+		$data['data']			=$this->M_latih->get_data_prediksi();
+		$data['userdata'] 		= $this->userdata;
         $this->load->view($this->template, $data);
 	}
 	
@@ -58,7 +59,19 @@ class List_prediksi extends AUTH_Controller {
         $this->session->set_flashdata('sukses',"Berhasil Di Hapus");
         return redirect('List_prediksi');
 	}
+
+	function delete_dapat($params = '') {
+        $this->M_bantuan->delete($params);
+        $this->session->set_flashdata('sukses',"Berhasil Di Hapus");
+        return redirect('Dashboard/dapat_bantuan');
+	}
 	
+	function delete_tidak($params = '') {
+        $this->M_bantuan->delete($params);
+        $this->session->set_flashdata('sukses',"Berhasil Di Hapus");
+        return redirect('Dashboard/tdapat_bantuan');
+	}
+
 	function adit_pered()
 	{
 		if($this->input->post()==FALSE){

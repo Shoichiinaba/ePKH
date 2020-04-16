@@ -13,6 +13,7 @@ class Profile extends AUTH_Controller {
 		
 		$data['page'] 			= "profile";
 		$data['judul'] 			= "Profile";
+		$data['blm_approve'] 	= $this->M_admin->blm_approve();
 		$data['deskripsi'] 		= "Setting Profile";
 		$data['content'] 		= "admin/profile";
         $this->load->view($this->template, $data);	

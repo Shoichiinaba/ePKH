@@ -5,7 +5,7 @@
           <small>List Data Sudah Diseleksi </small>
         </h1>
         <ol class="breadcrumb">
-          <li><a href="<?php echo site_url('admin/'); ?>"><i class="fa fa-dashboard"></i> Home > List Data </a></li>
+          <li><a href="<?php echo site_url('dashboard'); ?>"><i class="fa fa-dashboard"></i> Home > List Data </a></li>
         </ol>
       </section>
     <section class="content">
@@ -51,7 +51,8 @@
                                             <th width ='20%'>Klasifikasi Dapat</th>
                                             <th width ='20%'>Klasifikasi T Dapat</th>
                                             <th width ='20%'>Prediksi</th>
-                                            <th width ='20%'>Tahun</th>
+                                            <th width ='20%'>Pengajuan</th>
+                                            <th width ='20%'>Approve</th>
                                             <th width ='25%'>Action</th>
 
                                         </tr>
@@ -72,7 +73,8 @@
                                     <td><?php echo $g->prediksi_dapat; ?></td>
                                     <td><?php echo $g->prediksi_tdapat; ?></td>
                                     <td><?php echo $g->keputusan; ?></td>
-                                    <td><?php echo $g->tahun; ?></td>
+                                    <td><?php echo $g->tgl_pengajuan; ?></td>
+                                    <td><?php echo $g->tgl_approve; ?></td>
                                     <td>
 
                                      <a type="button" href="<?php echo base_url('/laporan/laprec/'.$g->no_kk); ?>" target="_blank" class="btn bg-maroon margin btn-xs"  data-placement="top"  title="Cetak"><i class="fa fa-print"></i></a>

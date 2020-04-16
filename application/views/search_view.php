@@ -17,17 +17,20 @@
                       <!-- conten tabel pencarian -->
                       <div class="content-wrapper">
                             <div class="container">
-                                  <div class="box" class="col-sm-12" >
+                                  <div class="box-large" class="col-sm-12" >
                                     <div class="box-header" >
                                         <div class="box-body table-responsive no-padding">
                                           <table class="table table-hover">
                                             <thead class="bg-primary" style= 'color: white'>
                                               <tr>
-                                                <th width ='3%'>NO</th>
+                                                <th width ='3%'>NO KK</th>
                                                 <th width ='19%'>Nama</th>
                                                 <th width ='28%'>Alamat</th>
                                                 <th width ='15%'>Keputusan</th>
                                                 <th width ='20%'>Tahun Pengajuan</th>
+                                                <th width ='20%'>Tgl. ACC </th>
+                                                <th width ='20%'> Status ACC </th>
+                                                <th width ='100%'>Ketrangan </th>
                                                 <th width ='30%'>Action</th>
                                               </tr>
                                             </thead>
@@ -38,7 +41,27 @@
                                                               <td><?php echo $row->nama;?></td>
                                                               <td><?php echo $row->alamat ?></td>
                                                               <td><?php echo $row->keputusan ?></td>
-                                                              <td><?php echo $row->tahun ?></td>
+                                                              <td><?php echo $row->tgl_pengajuan ?></td>
+                                                              <td><?php echo $row->tgl_approve?></td>
+                                                              <td>
+                                                              <?php if($row->status_approve==0){
+                                                                                  echo "<span style= 'color: orange'><b>Prosses</b></span>";
+                                                                                  //$teks="Nonaktifkan Data";
+                                                                                  $icon="switch";
+                                                                                  $class="danger";                                                                              
+                                                                          }elseif($row->status_approve==1){
+                                                                                  echo "<span style= 'color: blue'><b> Aproved</b></span>";
+                                                                                  //$teks="Aktifkan Data";
+                                                                                  $icon="switch";
+                                                                                  $class="bg-primary";
+                                                                          }else{
+                                                                                  echo "<span style= 'color: red'><b> Tidak Dapat</b></span>";
+                                                                                  //$teks="Aktifkan Data";
+                                                                                  $icon="switch";
+                                                                                  $class="default";
+                                                                    }?>
+                                                              </td>
+                                                              <td><?php echo $row->keterangan?></td>
                                                               <td>
                                                                   <a type="button" data-toggle="modal" data-target="#modal-detail<?=$row->no_kk;?>" class="btn bg-purple btn-xs"  data-placement="top"  title="Detail"><i class="icon icon-hospital-o"></i></a>
                                                                   <a type="button" href="<?php echo base_url('/laporan/laprec/'.$row->no_kk); ?>" target="_blank" class="btn bg-maroon margin btn-xs"  data-placement="top"  title="Cetak"><i class="icon icon-print"></i></a>
@@ -105,15 +128,19 @@
                         <b>Daya Listrik :</b> <a class="pull-right"> <?=$row->daya_listrik;?></a>
                       </li>
                       <li class="list-group-item">
-                        <b>Tahun :</b> 
-                        <td><a class="pull-right"> <?=$row->tahun;?></a></td>
+                        <b>Tanggal Pengajuan :</b> 
+                        <td><a class="pull-right"> <?=$row->tgl_pengajuan;?></a></td>
+                      </li>
+                      <li class="list-group-item">
+                        <b>Tanggal ACC :</b> 
+                        <td><a class="pull-right"> <?=$row->tgl_approve;?></a></td>
                       </li>
                       <li class="list-group-item bg-success">
-                        <b style= 'color: white'>Klasifikasi Dapat :</b> 
+                        <b style= 'color: white'>Penilaian Dapat :</b> 
                         <td><a class="pull-right" style= 'color: white'> <?=$row->prediksi_dapat;?></a></td>
                       </li>
                       <li class="list-group-item bg-danger">
-                        <b style= 'color: white'>Klasifikasi Tidak Dapat :</b> 
+                        <b style= 'color: white'>Penilaian Tidak Dapat :</b> 
                         <td><a class="pull-right" style= 'color: white'> <?=$row->prediksi_tdapat;?></a></td>
                       </li>
                       <li class="list-group-item bg-info">
@@ -136,4 +163,3 @@
           <!-- /.modal-dialog -->
 <?php endforeach;?>
         <!-- /.modal -->
-        

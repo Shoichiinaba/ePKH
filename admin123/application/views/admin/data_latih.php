@@ -5,7 +5,7 @@
           <small>Data Latih </small>
         </h1>
         <ol class="breadcrumb">
-          <li><a href="<?php echo site_url('admin/'); ?>"><i class="fa fa-dashboard"></i> Home > Data Latih</a></li>
+          <li><a href="<?php echo site_url('dashboard'); ?>"><i class="fa fa-dashboard"></i> Home > Data Latih</a></li>
         </ol>
       </section>
     <section class="content">

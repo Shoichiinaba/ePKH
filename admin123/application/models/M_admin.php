@@ -54,7 +54,35 @@ class M_admin extends CI_Model {
 			$data = $this->db->query("SELECT * FROM hasil_prediksi WHERE keputusan = '$keputusan'");
 			return $data->result();
 		}
+	function hasil_approve($status_approve = '1')
+		{
+			$data = $this->db->query("SELECT * FROM hasil_prediksi WHERE status_approve = '$status_approve'");
+			return $data->num_rows();
+		}
 
+	function blm_approve($keputusan = 'DAPAT',$status_approve= 0 )
+		{
+			$this->db->select('hasil_prediksi.*');
+			$this->db->where('keputusan', $keputusan);
+			$this->db->where('status_approve', $status_approve);
+			$query = $this->db->get('hasil_prediksi');
+			return $query->num_rows();
+		}
+
+	function get_approve($keputusan = 'DAPAT',$status_approve= 0 )
+		{
+			$this->db->select('hasil_prediksi.*');
+			$this->db->where('keputusan', $keputusan);
+			$this->db->where('status_approve', $status_approve);
+			$query = $this->db->get('hasil_prediksi');
+			return $query->result();
+		}
+
+	function verifikasi($no_kk,$troop_) 
+		{	
+			$this->db->where('no_kk', $no_kk);
+			$this->db->update('hasil_prediksi', $troop_);
+		}
 }
 
 /* End of file M_admin.php */

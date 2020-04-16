@@ -15,7 +15,25 @@ class tentukan_bantuan extends AUTH_Controller {
 	function index()
 	{
 		
+		$data['content'] 	= 'admin/menu_bantuan';
+		$data['blm_approve'] 	= $this->M_admin->blm_approve();
+		$data['userdata'] 	= $this->userdata;
+        $this->load->view($this->template, $data);	
+	}
+
+	function excel()
+	{
+		
 		$data['content'] 	= 'admin/bantuan';
+		$data['userdata'] 	= $this->userdata;
+		$data['blm_approve'] 	= $this->M_admin->blm_approve();
+        $this->load->view($this->template, $data);	
+	}
+
+	function form_bantuan()
+	{
+		$data['content'] 	= 'admin/form_bantuan';
+		$data['blm_approve'] 	= $this->M_admin->blm_approve();
 		$data['userdata'] 	= $this->userdata;
         $this->load->view($this->template, $data);	
 	}
@@ -63,6 +81,7 @@ class tentukan_bantuan extends AUTH_Controller {
 		
 		$data['userdata'] = $this->userdata;
 		$data['content']  = 'admin/bantuan';
+		$data['blm_approve'] 	= $this->M_admin->blm_approve();
 		$data['naive'] = $bayes;
 		$this->load->view($this->template, $data);
 	}
@@ -81,7 +100,7 @@ class tentukan_bantuan extends AUTH_Controller {
     	$prediksi_dapat =$_POST['prediksi_dapat'];
     	$prediksi_tdapat =$_POST['prediksi_tdapat'];
 		$keputusan =$_POST['keputusan'];
-		$tahun =date('Y');
+		$tgl_pengajuan =date('d/m/Y');
 
     	$data = array();
     	for($i = 0; $i<count($no_kk); $i++){
@@ -98,12 +117,40 @@ class tentukan_bantuan extends AUTH_Controller {
 				'prediksi_dapat'=>$prediksi_dapat[$i],
 				'prediksi_tdapat'=>$prediksi_tdapat[$i],
 				'keputusan'=>$keputusan[$i],
-				'tahun'=>$tahun,
+				'tgl_pengajuan'=>$tgl_pengajuan,
     		));
     	}
     	$this->M_bantuan->insert_multiple($data);
 		redirect('List_prediksi');
 	
-    }
+	}
+	
+	function simpan_predform()
+	{
+		if($this->input->post()==FALSE){
+			$this->session->set_flashdata('error',"Data Anda Gagal Di Simpan");
+			redirect('tentukan_bantuan/form_bantuan');
+		}else{
+
+			
+			$no_kk=$this->input->post('no_kk');
+			$nama=$this->input->post('nama');
+			$alamat=$this->input->post('alamat');
+			$status_rumah =$this->input->post('status_rumah');
+			$pekerjaan =$this->input->post('pekerjaan');
+			$jml_tanggungan =$this->input->post('jml_tanggungan');
+			$bahan_bakar_m =$this->input->post('bahan_bakar_m');
+			$sumber_air =$this->input->post('sumber_air');
+			$daya_listrik =$this->input->post('daya_listrik');
+			$prediksi_dapat =$this->input->post('prediksi_dapat');
+			$prediksi_tdapat =$this->input->post('prediksi_tdapat');
+			$keputusan =$this->input->post('keputusan');
+			$tgl_pengajuan =date('d/m/Y');
+
+			}
+		$this->M_bantuan->simpan_pred($no_kk,$nama,$alamat,$status_rumah,$pekerjaan,$jml_tanggungan,$bahan_bakar_m,$sumber_air,$daya_listrik,$prediksi_dapat,$prediksi_tdapat,$keputusan,$tgl_pengajuan);
+		$this->session->set_flashdata('sukses'," Berhasil Diinput");
+		redirect('tentukan_bantuan/form_bantuan');	
+	}
 	
 }

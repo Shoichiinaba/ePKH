@@ -12,7 +12,7 @@ $(document).ready(function(){
       <section class="content-header">
         <h1>Tentukan<small>Prediksi Penerima Bantuan </small></h1>
         <ol class="breadcrumb">
-          <li><a href="<?php echo site_url('admin/'); ?>"><i class="fa fa-dashboard"></i> Home > Prediksi Penerima</a></li>
+          <li><a href="<?php echo site_url('dashboard'); ?>"><i class="fa fa-dashboard"></i> Home > Prediksi Penerima</a></li>
         </ol>
       </section>
             <section class="content">
@@ -250,7 +250,7 @@ $(document).ready(function(){
           swal("sukses","Data Berhasil Di Simpan", "success");
         },
         error:function(data){
-          swal("Oops....", "Data Gagal Disimpa :(", "error");
+          swal("Oops....", "Data Gagal Disimpan (NO.kk Sudah Ada) :(", "error");
         }
 
       }).fail(function(t, j){

@@ -18,6 +18,7 @@ class Data_latih extends AUTH_Controller {
 		$data['jml_latih'] 			= $this->M_latih->get_jml_latih();
 		$data['jml_dapat'] 			= $this->M_latih->get_dapat();
 		$data['jml_tdapat'] 		= $this->M_latih->get_tdapat();
+		$data['blm_approve'] 	= $this->M_admin->blm_approve();
 		$data['content'] 			='admin/data_latih';
 		$data['userdata'] 			= $this->userdata;
         $this->load->view($this->template, $data);	

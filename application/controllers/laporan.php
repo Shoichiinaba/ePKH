@@ -29,7 +29,8 @@ class laporan extends CI_Controller {
             $prediksi_dapat = $data[0]['prediksi_dapat'];
             $prediksi_tdapat = $data[0]['prediksi_tdapat'];
             $keputusan = $data[0]['keputusan'];
-            $tahun = $data[0]['tahun'];
+            $tgl_pengajuan = $data[0]['tgl_pengajuan'];
+            $keterangan = $data[0]['keterangan'];
             $this->load->library('pdf');
         $pdf = new FPDF('P','mm','A4');
         $pdf->AddPage();
@@ -88,9 +89,9 @@ class laporan extends CI_Controller {
         $pdf->SetFillColor(245,24,81);
         $pdf->SetTextColor(255);
         $pdf->SetDrawColor(8,8,8);
-        $header = array('Status Rumah','Pekerjaan','Jml. Tanggungan','Bahan Bakar.','Sumber Air','Daya Listrik','Tahun');
+        $header = array('Status Rumah','Pekerjaan','Jml. Tanggungan','Bahan Bakar. M','Sumber Air','Daya Listrik');
         // Lebar Header Sesuaikan Jumlahnya dengan Jumlah Field Tabel Database
-       $w = array(32,36,28,22,28,32,18);
+       $w = array(32,36,30,30,36,32);
         for($i=0;$i<count($header);$i++)
         $pdf->Cell($w[$i],7,$header[$i],1,0,'C',true);
         $pdf->Ln();
@@ -100,14 +101,12 @@ class laporan extends CI_Controller {
         $pdf->SetTextColor(0);
         $pdf->SetFont('');
         
-            $pdf->Cell($w[0],6,$status_rumah,'LR',0,'L',$fill);
-            $pdf->Cell($w[1],6,$pekerjaan,'LR',0,'L',$fill);
+            $pdf->Cell($w[0],6,$status_rumah,'LR',0,'C',$fill);
+            $pdf->Cell($w[1],6,$pekerjaan,'LR',0,'C',$fill);
             $pdf->Cell($w[2],6,$jml_tanggungan,'LR',0,'C',$fill);
             $pdf->Cell($w[3],6,$bahan_bakar_m,'LR',0,'C',$fill);
-            $pdf->Cell($w[2],6,$sumber_air,'LR',0,'C',$fill);
+            $pdf->Cell($w[1],6,$sumber_air,'LR',0,'C',$fill);
             $pdf->Cell($w[5],6,$daya_listrik,'LR',0,'C',$fill);
-            $pdf->Cell($w[6],6,$tahun,'LR',0,'C',$fill);
-        
 
         $pdf->Ln();
         $fill = !$fill;
@@ -141,8 +140,63 @@ class laporan extends CI_Controller {
         $fill = !$fill;
         $pdf->Cell(array_sum($w),0,'','T'); 
 
+         // Tabel Pengajuan
+         $pdf->Ln(8);
+         $pdf->Cell(35, 4, 'Pengajuan dan Approve :', 0, 0, 'L');
+         $pdf->Ln(10);
+         // Data
+         $pdf->SetFont('Arial','',10);
+         $pdf->SetFillColor(240,243,24);
+         $pdf->SetTextColor(0);
+         $pdf->SetDrawColor(8,8,8);
+         $header = array('Tanggal Pengajuan','Tanggal Approve');
+         // Lebar Header Sesuaikan Jumlahnya dengan Jumlah Field Tabel Database
+        $w = array(40,40);
+         for($i=0;$i<count($header);$i++)
+         $pdf->Cell($w[$i],7,$header[$i],1,0,'C',true);
+         $pdf->Ln();
+         // Data
+         $fill = true;
+         $pdf->SetFillColor(224,235,255);
+         $pdf->SetTextColor(0);
+         $pdf->SetFont('');
+         
+             $pdf->Cell($w[0],6,$tgl_pengajuan,'LR',0,'C',$fill);
+             $pdf->Cell($w[1],6,$tgl_pengajuan,'LR',0,'C',$fill);
+         
+         $pdf->Ln();
+         $fill = !$fill;
+         $pdf->Cell(array_sum($w),0,'','T'); 
+
+        //  tabel Keterangan
+        $pdf->Ln(8);
+        $pdf->Cell(35, 4, 'Informasi Lebih Lanjut :', 0, 0, 'L');
+        $pdf->Ln(10);
+        // Data
+        $pdf->SetFont('Arial','',10);
+        $pdf->SetFillColor(245,24,81);
+        $pdf->SetTextColor(255);
+        $pdf->SetDrawColor(8,8,8);
+        $header = array('Keterangan');
+        // Lebar Header Sesuaikan Jumlahnya dengan Jumlah Field Tabel Database
+       $w = array(191);
+        for($i=0;$i<count($header);$i++)
+        $pdf->Cell($w[$i],7,$header[$i],1,0,'C',true);
+        $pdf->Ln();
+        // Data
+        $fill = true;
+        $pdf->SetFillColor(224,235,255);
+        $pdf->SetTextColor(0);
+        $pdf->SetFont('');
+        
+            $pdf->Cell($w[0],6,$keterangan,'LR',0,'L',$fill);
+        
+        $pdf->Ln();
+        $fill = !$fill;
+        $pdf->Cell(array_sum($w),0,'','T');     
+
         // Pengesahan
-        $pdf->Ln(35);
+        $pdf->Ln(32);
         $pdf->Ln(10);
         $pdf->Cell(185, 4, 'Semarang,'.date(" d F Y"), 0, 0, 'R');
         $pdf->Ln(6);
@@ -154,7 +208,7 @@ class laporan extends CI_Controller {
         $pdf->Cell(183, 4,'PETRUS SETYO W.,S.AP', 0, 0, 'R');
         $pdf->setlinewidth(0.3);
        
-        $pdf->Line(199,213,150,213);
+        $pdf->Line(199,272,148,272);
         $pdf->Ln(5);
     
         $pdf->Cell(146, 4, 'NIP', 0, 0, 'R');
